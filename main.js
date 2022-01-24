@@ -21,11 +21,14 @@ const equalBtn=document.getElementById('equal');
 //querySelecton all the buttons AT ONCE
 const btn=document.querySelectorAll(".btn");
 
+//querySelects screen
+const screen=document.querySelector(".current");
+
 //select lines on screen
 const previous=document.querySelector(".previous");
 const current=document.querySelector(".current");
 
-//Adds highlight effect to calculator buttons
+//Function that adds highlight effect to calculator buttons
 
 function btnHighlight(e){
     let name=e.target.className;
@@ -39,20 +42,38 @@ function btnReset(e){
     let id=e.target.id;
     if (name==="btn" && id!=="addition"){
         e.target.style.backgroundColor="#3e4a61";
-        //e.target.color="white";
     }
     else if(id=="addition"){
         e.target.style.backgroundColor="#c24d2c";
     }
 }
 
+//Event listeners for button interaction
 for (i=0; i<16; i++){
     btn[i].addEventListener('mouseover', btnHighlight);
     btn[i].addEventListener('mouseout', btnReset);
+    btn[i].addEventListener('click', postNumber);
 }
 
-//Press button, put corresponding button-content into array
+//Function to push callButton into screen
+let screenArray=[];
+
+//Note: put parts of postnumber function into operate,
+
+function postNumber(e){
+    let number = callButton(e);
+    if (number >=0 && number <=9){
+        screen.innerHTML=number;           
+    }
+    console.log("workd");
+}
 
 
+//Function to obtain button/operation from buttons 
+function callButton (e){
+    const word = e.target.textContent;
+    console.log(word);
+    return word;
+}
 
 //Functions for Addition, Subtraction, Division, Multiplication

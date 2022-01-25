@@ -1,25 +1,15 @@
-/*
-//querySelect all the buttons
-const oneBtn=document.getElementById('one');
-const twoBtn=document.getElementById('two');
-const threeBtn=document.getElementById('three');
-const fourBtn=document.getElementById('four');
-const fiveBtn=document.getElementById('five');
-const sixBtn=document.getElementById('six');
-const sevenBtn=document.getElementById('seven');
-const eightBtn=document.getElementById('eight');
-const nineBtn=document.getElementById('nine');
-const zeroBtn=document.getElementById('zero');
-const additionBtn=document.getElementById('addition');
-const subtractionBtn=document.getElementById('subtraction');
-const multiplicationBtn=document.getElementById('multiplication');
-const divisionBtn=document.getElementById('division');
-const allClearBtn=document.getElementById('all-clear');
-const equalBtn=document.getElementById('equal');
-*/
 
 //querySelecton all the buttons AT ONCE
 const btn=document.querySelectorAll(".btn");
+
+//querySelect all NUMBERED buttons
+const numBtn=document.querySelectorAll("#numBtn");
+
+//querySelect each OPERAND buttons
+const addition=document.getElementById("addition");
+
+//querySelect EQUAL
+const equal=document.getElementById("equal");
 
 //querySelects screen
 const screen=document.querySelector(".current");
@@ -52,11 +42,20 @@ function btnReset(e){
 for (i=0; i<16; i++){
     btn[i].addEventListener('mouseover', btnHighlight);
     btn[i].addEventListener('mouseout', btnReset);
-    btn[i].addEventListener('click', postNumber);
+    //btn[i].addEventListener('click', pushToArray);
+    //btn[i].addEventListener('click', pushToStorage);
 }
 
-//Function to push callButton into screen
-let screenArray=[];
+
+let numLength=numBtn.length;
+for (i=0; i<numLength; i++){
+    numBtn[i].addEventListener('click', pushToArray);
+}
+
+addition.addEventListener('click', pushToStorage);
+addition.addEventListener('click', determineOp);
+
+equal.addEventListener('click', operate);
 
 //Note: put parts of postnumber function into operate,
 
@@ -68,12 +67,60 @@ function postNumber(e){
     console.log("workd");
 }
 
+//Using Arrays for storage
+let screenArray=[];
+let storageArray=[];
+let operand="";
+let boy=0;
+let girl=0;
 
-//Function to obtain button/operation from buttons 
-function callButton (e){
-    const word = e.target.textContent;
-    console.log(word);
-    return word;
+function pushToArray(e){
+    let a=e.target.textContent;
+    //if(a!="+" && a!="-" && a!="X" && a!="/" && a!="AC" && a!="="){
+        screenArray.push(a);
+        screenArray.reduce((total, item) =>{
+            return total + item;
+        }, "")
+        let pig=parseInt(screenArray.join(''));
+        console.log(`the number is now ${pig}`);
+        girl=pig;
+    //} 
+}
+
+function pushToStorage(e){
+    //let b=e.target.textContent;
+    let c=screenArray.length;
+    for (i=0; i<c; i++){
+        //if(b == "+" || b=="-" || b=="X" || b=="/"){
+            let chicken=screenArray.pop();
+            storageArray.push(chicken);
+        //}
+    }
+    //let cat=storageArray.reduce((total, item) =>{
+    //    return total + item;
+    //}, "")
+    let cat=parseInt(storageArray.join(''));
+    console.log(`other number is ${cat}`);
+    boy=cat;
+}
+
+function determineOp(e){
+    operand = e.target.textContent;
+    console.log(`the operand is ${operand}`);
+}
+
+function operate(){
+    if (operand=="+"){
+        console.log("behold!");
+        //let a=screenArray[0];
+        //let b=storageArray;
+        console.log(`we are adding ${boy} and ${girl}`);
+        //console.log(add(screenArray[0], storageArray[0]));
+    }
 }
 
 //Functions for Addition, Subtraction, Division, Multiplication
+//Addition
+function add(a, b){
+    return a+b;
+}

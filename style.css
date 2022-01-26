@@ -26,16 +26,27 @@ body {
     height: 30%;
     width: 100%;
     display: flex;
-    flex-direction: column;
+    /*flex-direction: column;*/
+    align-items: center;
+    justify-content: flex-end;
     border-bottom: solid 5px #1a2639;
     background-color:  #d9dad7;
+    font-size: 40px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
+.current{
+    color:#1a2639;
+    padding-right: 15px;
+}
+
+/*
 .previous,
 .current {
     height: 50%;
     width: 100%;
 }
+*/
 
 .buttons{
     display: flex;
@@ -68,3 +79,12 @@ body {
 #addition{
     background-color: #c24d2c;
 }
+
+/*
+.current {
+    display: flex;
+    justify-content: right;
+    padding-right: 20px;
+    width: 114.234px;
+}
+*/

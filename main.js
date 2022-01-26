@@ -7,19 +7,18 @@ const numBtn=document.querySelectorAll("#numBtn");
 
 //querySelect each OPERAND buttons
 const addition=document.getElementById("addition");
+const subtraction=document.getElementById("subtraction");
+const multiplication=document.getElementById("multiplication");
+const division=document.getElementById("division");
+const allClear=document.getElementById("all-clear");
 
 //querySelect EQUAL
 const equal=document.getElementById("equal");
 
-//querySelects screen
-const screen=document.querySelector(".current");
-
 //select lines on screen
-const previous=document.querySelector(".previous");
 const current=document.querySelector(".current");
 
 //Function that adds highlight effect to calculator buttons
-
 function btnHighlight(e){
     let name=e.target.className;
     if (name==="btn"){
@@ -42,10 +41,7 @@ function btnReset(e){
 for (i=0; i<16; i++){
     btn[i].addEventListener('mouseover', btnHighlight);
     btn[i].addEventListener('mouseout', btnReset);
-    //btn[i].addEventListener('click', pushToArray);
-    //btn[i].addEventListener('click', pushToStorage);
 }
-
 
 let numLength=numBtn.length;
 for (i=0; i<numLength; i++){
@@ -55,14 +51,24 @@ for (i=0; i<numLength; i++){
 addition.addEventListener('click', pushToStorage);
 addition.addEventListener('click', determineOp);
 
+subtraction.addEventListener('click', pushToStorage);
+subtraction.addEventListener('click', determineOp);
+
+multiplication.addEventListener('click', pushToStorage);
+multiplication.addEventListener('click', determineOp);
+
+division.addEventListener('click', pushToStorage);
+division.addEventListener('click', determineOp);
+
 equal.addEventListener('click', operate);
+allClear.addEventListener('click', reset);
 
 //Note: put parts of postnumber function into operate,
 
 function postNumber(e){
     let number = callButton(e);
     if (number >=0 && number <=9){
-        screen.innerHTML=number;           
+        current.innerHTML=number;           
     }
     console.log("workd");
 }
@@ -71,37 +77,30 @@ function postNumber(e){
 let screenArray=[];
 let storageArray=[];
 let operand="";
-let boy=0;
-let girl=0;
+let boy=0; //stored number
+let girl=0; //screen number
 
 function pushToArray(e){
     let a=e.target.textContent;
-    //if(a!="+" && a!="-" && a!="X" && a!="/" && a!="AC" && a!="="){
         screenArray.push(a);
         screenArray.reduce((total, item) =>{
             return total + item;
         }, "")
-        let pig=parseInt(screenArray.join(''));
-        console.log(`the number is now ${pig}`);
-        girl=pig;
-    //} 
+        let cowgirl=parseFloat(screenArray.join(''));
+        console.log(`the screen number is now ${cowgirl}`);
+        current.innerHTML=cowgirl;
+        girl=cowgirl;
 }
 
 function pushToStorage(e){
-    //let b=e.target.textContent;
     let c=screenArray.length;
     for (i=0; i<c; i++){
-        //if(b == "+" || b=="-" || b=="X" || b=="/"){
             let chicken=screenArray.pop();
-            storageArray.push(chicken);
-        //}
+            storageArray.unshift(chicken);
     }
-    //let cat=storageArray.reduce((total, item) =>{
-    //    return total + item;
-    //}, "")
-    let cat=parseInt(storageArray.join(''));
-    console.log(`other number is ${cat}`);
-    boy=cat;
+    let catboy=parseFloat(storageArray.join(''));
+    console.log(`stored number is ${catboy}`);
+    boy=catboy;
 }
 
 function determineOp(e){
@@ -111,16 +110,80 @@ function determineOp(e){
 
 function operate(){
     if (operand=="+"){
-        console.log("behold!");
-        //let a=screenArray[0];
-        //let b=storageArray;
-        console.log(`we are adding ${boy} and ${girl}`);
-        //console.log(add(screenArray[0], storageArray[0]));
+        console.log(`we are doing ${boy} ${operand} ${girl}`);
+        result= add(boy,girl);
+        console.log(`the result is ${result}`);
+        current.innerHTML=result;
+        storageArray=[];
+        screenArray=[result];
+        operand="";
+        console.log(storageArray);
+        console.log(screenArray);
+    }
+    else if (operand=="-"){
+        console.log(`we are doing ${boy} ${operand} ${girl}`);
+        result= subtract(boy,girl);
+        console.log(`the result is ${result}`);
+        current.innerHTML=result;
+        storageArray=[];
+        screenArray=[result];
+        operand="";
+        console.log(storageArray);
+        console.log(screenArray);
+    }
+    else if (operand=="X"){
+        console.log(`we are doing ${boy} ${operand} ${girl}`);
+        result= multiply(boy,girl);
+        console.log(`the result is ${result}`);
+        current.innerHTML=result;
+        storageArray=[];
+        screenArray=[result];
+        operand="";
+        console.log(storageArray);
+        console.log(screenArray);
+    }
+    else if (operand=="/"){
+        console.log(`we are doing ${boy} ${operand} ${girl}`);
+        result= divide(boy,girl);
+        console.log(`the result is ${result}`);
+        if (result==Infinity){
+            current.innerHTML="don't divide by 0, press AC to restart universe";
+            console.log("this is infinite");
+            storageArray=[];
+            screenArray=[];
+            operand="";
+        } else{
+            current.innerHTML=result;
+            storageArray=[];
+            screenArray=[result];
+            operand="";
+            console.log(storageArray);
+            console.log(screenArray);
+        }
     }
 }
 
+
 //Functions for Addition, Subtraction, Division, Multiplication
-//Addition
 function add(a, b){
     return a+b;
+}
+
+function subtract(a, b){
+    return a-b;
+}
+
+function divide(a,b){
+    return a/b;
+}
+
+function multiply(a, b){
+    return a*b;
+}
+
+function reset(){
+    storageArray=[];
+    screenArray=[];
+    current.innerHTML="";
+    operand="";
 }
